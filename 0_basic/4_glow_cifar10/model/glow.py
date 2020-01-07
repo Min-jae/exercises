@@ -28,6 +28,8 @@ class Invertible1x1conv(nn.Module):
         if not reverse:
             # forward pass
             w = self.weight
+            if torch.cuda.is_available():
+                w = w.cuda()
             w = w.view(self.n_chn, self.n_chn, 1, 1)
             y = F.conv2d(x, w)
             #             print('conv1x1: {:.3f}'.format(dlogdet))

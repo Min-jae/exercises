@@ -17,7 +17,9 @@ class Invertible1x1conv(nn.Module):
 
         # sample a random orthoronal matrix to initialize weights
         self.weight = torch.qr(torch.randn(n_chn, n_chn))[0]
-
+        if torch.cuda.is_available():
+            self.weight.cuda()
+            
     def forward(self, x, logdet=None, reverse=False):
         # compute log determinant
         _, logabsdet = torch.slogdet(self.weight)
@@ -55,7 +57,6 @@ class ActNorm(nn.Module):
         dlogdet = x.size(-2) * x.size(-1) * torch.sum(torch.abs(self.logs)) / x.size(0)
         if not reverse:
             #             print('actnorm: {:.3f}'.format(dlogdet))
-
             # forward pass
             y = x * torch.exp(self.logs) + self.b
 
@@ -104,7 +105,6 @@ class AffineCoupling(nn.Module):
         # print(torch.abs(logs).size())
         if not reverse:
             #             print('affine coupling: {:.3f}'.format(dlogdet))
-
             # forward pass
             xb2 = xb * torch.exp(logs) + b
 

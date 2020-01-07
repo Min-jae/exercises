@@ -39,6 +39,9 @@ def _train_loop(train_loader, model, criterion, optimizer, use_cuda):
         z, logdet = model(image, logdet=0., reverse=False)
         loss = criterion(z, logdet)
         loss.backward()
+
+        torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.)
+
         optimizer.step()
         loss_avg += loss / len(train_loader)
 
@@ -101,7 +104,7 @@ def main():
                 if torch.is_tensor(value):
                     state[key] = value.cuda()
 
-    print('Training start\n')
+    print('Training start')
     model.train()
     for epoch in range(args.n_epoch):
         start_t = time.time()

@@ -7,7 +7,7 @@ import torchvision.transforms as transforms
 import numpy as np
 import scipy.linalg
 
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 
 class Invertible1x1conv(nn.Module):
@@ -19,7 +19,7 @@ class Invertible1x1conv(nn.Module):
         self.weight = torch.qr(torch.randn(n_chn, n_chn))[0]
         if torch.cuda.is_available():
             self.weight.cuda()
-            
+
     def forward(self, x, logdet=None, reverse=False):
         # compute log determinant
         _, logabsdet = torch.slogdet(self.weight)

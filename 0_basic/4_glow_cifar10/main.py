@@ -5,7 +5,7 @@ import argparse
 import time
 import logging
 import os
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 from model.glow import Glow
 from model.loss import GlowLoss
@@ -62,7 +62,7 @@ def main():
 
     args = get_arguments()
     # make experiment directory
-    expdir = ".exp/exp"
+    expdir = "./exp/exp"
     for key, value in vars(args).items():
         print("{} = {}".format(str(key), str(value)))
         if key not in "dataset_path":

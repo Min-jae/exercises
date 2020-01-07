@@ -102,13 +102,12 @@ def main():
                     state[key] = value.cuda()
 
     print('Training start\n')
-
     model.train()
     for epoch in range(args.n_epoch):
         start_t = time.time()
         loss = _train_loop(train_loader=train_loader, model=model, criterion=criterion, optimizer=optimizer, use_cuda=use_cuda)
         loss_test = _test_loop(test_loader=test_loader, model=model, criterion=criterion, use_cuda=use_cuda)
-        print('Epoch: {:} \tTrain/Test loss: {:.6f} / {:.6f}, time required: {:.2f} sec'.format(
+        print('Epoch: {:} \tTrain/Test loss: {:.6f} / {:.6f}, time required: {:g.2f} sec'.format(
             epoch + 1, loss, loss_test, time.time() - start_t))
         save_checkpoint(expdir + "/models", model, optimizer, epoch, loss, loss_test)
 
